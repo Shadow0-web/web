@@ -184,7 +184,7 @@ Nova prepucio &amp; ???. </div>
 </div>
 
 <script>
-    // Función para buscar APKs
+
     function searchAPK() {
         let input = document.getElementById('search').value.toLowerCase();
         let apkCards = document.querySelectorAll('.apk-card');
@@ -198,8 +198,6 @@ Nova prepucio &amp; ???. </div>
             }
         });
     }
-
-    // Función para filtrar por categoría
     function filterAPKs(category) {
         let apkCards = document.querySelectorAll('.apk-card');
 
@@ -212,8 +210,6 @@ Nova prepucio &amp; ???. </div>
             }
         });
     }
-
-    // Función para mostrar créditos
     function showCredits() {
         let creditsText = document.getElementById('credits-text');
         creditsText.style.display = "block";
