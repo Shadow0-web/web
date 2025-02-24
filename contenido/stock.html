@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frutas en Stock</title>
+    <style>
+        .boton-instalar {
+            position: relative; 
+            display: inline-block;
+            background-color: #000000;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 7px;
+            text-decoration: none; 
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.5s;
+        }
+        
+        .boton-instalar:hover {
+            background-color: #2e2e2e;
+        }
+        .fruit-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .fruit-item img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+        }
+        .fruit-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .fruit-name {
+            font-weight: bold;
+        }
+        .fruit-rarity {
+            color: #555;
+            font-size: 0.9em;
+        }
+        .fruit-price {
+            color: #4CAF50;
+            font-size: 0.9em;
+        }
+        .robux-price {
+            color: #00b3ff;
+            font-size: 0.9em;
+        }
+        body{
+            color: black;
+            background-color: #111010;
+        }
+        .icono-pico {
+            width: 23px;
+            height: 23px;
+            margin-right: 1px;
+            vertical-align:sub;
+            transition: transform 0.3s ease;
+        }
+        .oso{
+           background-color: #464646;
+           text-align: center;
+           width: 400px;
+           border-radius: 10px;
+           vertical-align: middle;
+           text-shadow: #836586;
+           box-decoration-break: unset;
+           height: auto;
+           color: rgb(201, 201, 201);
+           right: -60px;
+           position: relative;
+        }
+        #boton-retroceso {
+            position: relative;
+            top: 58px;
+            right: -0px;
+            background-color: #464646;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease;
+        }
+
+        #boton-retroceso:hover {
+            background-color: #2e2e2e;
+        }
+        .robux-price {
+            color: #FFD700;
+            font-size: 0.9em;
+            text-shadow: 0 0 2px rgba(255, 215, 0, 0.3);
+            font-weight: bold;
+        }
+        .timer-container {
+                position: relative;
+                background-color: #464646;
+                padding: 10px;
+                border-radius: 10px;
+                margin-left: 20px;
+                color: rgb(201, 201, 201);
+                top: 118px;
+                right: 200px;
+            }
+            .timer-input {
+                background-color: #2e2e2e;
+                color: white;
+                border: 1px solid #666;
+                border-radius: 5px;
+                padding: 5px;
+                width: 50px;
+                margin: 0 5px;
+            }
+            .timer-button {
+                background-color: #2e2e2e;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                padding: 5px 10px;
+                cursor: pointer;
+                margin-left: 10px;
+            }
+            .timer-button:hover {
+                background-color: #1e1e1e;
+            }
+            .header-container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 20px;
+            }
+</style>
+    </head>
+    <body class="body">
+        <div class="header-container">
+            <div class="timer-container">
+                <span id="timer">04:00:00</span>
+            </div>
+        </div>
+</head>
+
+<body class="body">
+    <button id="boton-retroceso">←</button> <h1 class="oso">Frutas en Stock</h1>
+    <div id="fruit-list">Cargando...</div>
+    <script>
+        document.getElementById('boton-retroceso').addEventListener('click', function() {
+            window.history.back();
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        function fetchFruitData() {
+            const options = {
+                method: 'GET',
+                url: 'https://blox-fruit-stock-fruit.p.rapidapi.com/check_stock',
+                headers: {
+                    'x-rapidapi-key': 'f0cdebdc84mshc40446d8bdad367p12e1efjsn0d1ecdbcc50e',
+                    'x-rapidapi-host': 'blox-fruit-stock-fruit.p.rapidapi.com'
+                }
+            };
+            axios.request(options)
+                .then(function (response) {
+                    const fruits = response.data.fruit_stock;
+                    displayFruits(fruits);
+                })
+                .catch(function (error) {
+                    console.error(error);
+                    document.getElementById('fruit-list').textContent = 'Error al cargar los datos.';
+                });
+        }
+
+        function getFruitRarity(fruitName) {
+            if (fruitName === "Flame" || fruitName === "Falcon"  || fruitName === "Ice"  || fruitName === "Sand"  || fruitName === "Dark" || fruitName === "Diamond") {
+                return "Uncommon"; 
+            }
+            if (fruitName === "Light" || fruitName === "Rubber"  || fruitName === "Barrier"  || fruitName === "Ghost"  || fruitName === "Magma") {
+                return "Raras"; 
+            }
+            if (fruitName === "Quake" || fruitName === "Buddha"  || fruitName === "Love"  || fruitName === "Spider"  || fruitName === "Sound"  || fruitName === "Phoenix"   || fruitName === "Portal"   || fruitName === "Rumble"   || fruitName === "Pain"   || fruitName === "Blizzard") {
+                return "Legendario"; 
+            }
+            if (fruitName === "Gravity" || fruitName === "Mammoth"  || fruitName === "T-rex"  || fruitName === "Dough"  || fruitName === "Shadow"  || fruitName === "Venom"   || fruitName === "Control"   || fruitName === "Spirit"   || fruitName === "Leopard"   || fruitName === "Kitsune"   || fruitName === "Gas"    || fruitName === "Yeti") {
+                return "Miticas"; 
+            }
+            if (fruitName === "Dragon") {
+                return "oso"; 
+            }
+            return "Común"; 
+        }
+
+        function getFruitPrice(fruitName) {
+            const fruitPrices = {
+                "Rocket": "5,000",
+                "Blade": "30,000",
+                "Spin": "7,500",
+                "Spring": "60,000",
+                "Bomb": "80,000",
+                "Smoke": "100,000",
+                "Spike": "180,000",
+                "Flame": "250,000",
+                "Falcon": "300,000 ",
+                "Ice": "350,000",
+                "Sand": "420,000 ",
+                "Dark": "500,000",
+                "Diamond": "600,000",
+                "Light": "650,000",
+                "Rubber": "750,000",
+                "Barrier": "800,000",
+                "Ghost": "940,000",
+                "Magma": "960,000",
+                "Quake": "1,000,000",
+                "Buddha": "1,200,000",
+                "Love": "1,300,000",
+                "Spider": "1,500,000",
+                "Sound": "1,700,000",
+                "Phoenix": "1,800,000",
+                "Portal": "1,900,000",
+                "Rumble": "2,100,000 ",
+                "Pain": "2,300,000",
+                "Blizzard": "2,400,000",
+                "Gravity": "2,500,000",
+                "Mammoth": "2,700,000",
+                "T-rex": "2,700,000",
+                "Dough": "2800,000",
+                "Shadow": "2,900,000",
+                "Venom": "3,000,0000 ",
+                "Control": "3,200,000",
+                "Spirit": "3,400,000",
+                "Leopard": "5,000,000",
+                "Kitsune": "8,000,000",
+                "Gas": "3,200,000",
+                "Yeti": "5,000,000",
+                "Dragon": "15,000,000"
+            };
+            return fruitPrices[fruitName] || "Precio no disponible";
+        }
+
+        function getRobuxPrice(fruitName) {
+            const robuxPrices = {
+                "Blade": "100",
+                "Rocket": "50",
+                "Spin": "75",
+                "Spring": "180",
+                "Bomb": "220",
+                "Smoke": "250",
+                "Spike": "380",
+                "Flame": "550",
+                "Falcon": "650",
+                "Ice": "750",
+                "Sand": "850",
+                "Dark": "950",
+                "Diamond": "1,000",
+                "Light": "1,100",
+                "Rubber": "1,200",
+                "Barrier": "1,250",
+                "Ghost": "1,275",
+                "Magma": "1,300",
+                "Quake": "1,500",
+                "Buddha": "1,650",
+                "Love": "1,700",
+                "Spider": "1,800",
+                "Sound": "1,900",
+                "Phoenix": "2,000",
+                "Portal": "2,000",
+                "Rumble": "2,100",
+                "Pain": "2,200",
+                "Blizzard": "2,250",
+                "Gravity": "2,300",
+                "Mammoth": "2,350",
+                "T-rex": "2,350",
+                "Dough": "2,400",
+                "Shadow": "2,425",
+                "Venom": "2,450",
+                "Control": "2,500",
+                "Gas": "2,500",
+                "Spirit": "2,550",
+                "Leopard": "3,000",
+                "Yeti": "3,000",
+                "Kitsune": "4,000",
+                "Dragon": "5,000"
+            };
+            return robuxPrices[fruitName] || "Robux no disponible";
+        }
+
+        function getRarityColor(rarity) {
+            const rarityColors = {
+                "Común": "#bababa", 
+                "Uncommon": "#aaaaff", 
+                "Raras": "#A78BFA", 
+                "Legendario": "#F472B6", 
+                "Miticas": "#ff6666", 
+                "oso": "#cc99ff" 
+            };
+            return rarityColors[rarity] || "#f0f0f0"; 
+        }
+
+        function displayFruits(fruits) {
+            const fruitList = document.getElementById('fruit-list');
+            fruitList.innerHTML = '';
+
+            if (fruits.length === 0) {
+                fruitList.textContent = 'No hay frutas en stock.';
+                return;
+            }
+
+            fruits.forEach(fruit => {
+                const fruitItem = document.createElement('div');
+                fruitItem.className = 'fruit-item';
+                const rarity = getFruitRarity(fruit);
+                const rarityColor = getRarityColor(rarity);
+                fruitItem.style.backgroundColor = rarityColor;
+
+                const fruitImage = document.createElement('img');
+                fruitImage.src = `frutas/${fruit.toLowerCase()}.png`;
+                fruitImage.alt = fruit;
+                fruitItem.appendChild(fruitImage);
+
+                const fruitInfo = document.createElement('div');
+                fruitInfo.className = 'fruit-info';
+
+                const fruitName = document.createElement('span');
+                fruitName.className = 'fruit-name';
+                fruitName.textContent = fruit;
+                fruitInfo.appendChild(fruitName);
+
+                const fruitRarity = document.createElement('span');
+                fruitRarity.className = 'fruit-rarity';
+                fruitRarity.textContent = `Rareza: ${rarity}`;
+                fruitInfo.appendChild(fruitRarity);
+
+                const fruitPrice = document.createElement('span');
+                fruitPrice.className = 'fruit-price';
+                fruitPrice.textContent = `Precio: $${getFruitPrice(fruit)}`;
+                fruitInfo.appendChild(fruitPrice);
+
+                const robuxPrice = document.createElement('span');
+                robuxPrice.className = 'robux-price';
+                robuxPrice.textContent = `Robux: R$${getRobuxPrice(fruit)}`;
+                fruitInfo.appendChild(robuxPrice);
+
+                fruitItem.appendChild(fruitInfo);
+                fruitList.appendChild(fruitItem);
+            });
+        }
+
+        fetchFruitData();
+    </script>
+    <script>
+
+        function getRarityWeight(rarity) {
+        const rarityWeights = {
+        "Común": 6,
+        "Uncommon": 5,
+        "Raras": 4,
+        "Legendario": 3,
+        "Miticas": 2,
+        "oso": 1
+    };
+    return rarityWeights[rarity] || 0;
+}
+
+function displayFruits(fruits) {
+    const fruitList = document.getElementById('fruit-list');
+    fruitList.innerHTML = '';
+
+    if (fruits.length === 0) {
+        fruitList.textContent = 'No hay frutas en stock.';
+        return;
+    }
+
+    const sortedFruits = fruits.sort((a, b) => {
+        const rarityA = getFruitRarity(a);
+        const rarityB = getFruitRarity(b);
+        return getRarityWeight(rarityA) - getRarityWeight(rarityB);
+    });
+
+    let currentRarity = null;
+    
+    sortedFruits.forEach(fruit => {
+        const rarity = getFruitRarity(fruit);
+        
+        if (currentRarity !== rarity) {
+            const rarityHeader = document.createElement('h2');
+            rarityHeader.style.color = getRarityColor(rarity);
+            rarityHeader.style.marginTop = '20px';
+            rarityHeader.style.marginBottom = '10px';
+            rarityHeader.textContent = `Frutas ${rarity}`;
+            fruitList.appendChild(rarityHeader);
+            currentRarity = rarity;
+        }
+
+        const fruitItem = document.createElement('div');
+        fruitItem.className = 'fruit-item';
+        const rarityColor = getRarityColor(rarity);
+        fruitItem.style.backgroundColor = rarityColor;
+
+        const fruitImage = document.createElement('img');
+        fruitImage.src = `frutas/${fruit.toLowerCase()}.png`;
+        fruitImage.alt = fruit;
+        fruitItem.appendChild(fruitImage);
+
+        const fruitInfo = document.createElement('div');
+        fruitInfo.className = 'fruit-info';
+
+        const fruitName = document.createElement('span');
+        fruitName.className = 'fruit-name';
+        fruitName.textContent = fruit;
+        fruitInfo.appendChild(fruitName);
+
+        const fruitRarity = document.createElement('span');
+        fruitRarity.className = 'fruit-rarity';
+        fruitRarity.textContent = `Rareza: ${rarity}`;
+        fruitInfo.appendChild(fruitRarity);
+        const fruitPrice = document.createElement('span');
+        fruitPrice.className = 'fruit-price';
+        fruitPrice.textContent = `Precio: $${getFruitPrice(fruit)}`;
+        fruitInfo.appendChild(fruitPrice);
+        const robuxPrice = document.createElement('span');
+        robuxPrice.className = 'robux-price';
+        robuxPrice.textContent = `Robux: R$${getRobuxPrice(fruit)}`;
+        fruitInfo.appendChild(robuxPrice);
+        fruitItem.appendChild(fruitInfo);
+        fruitList.appendChild(fruitItem);
+    });
+}
+    </script>
+    <script>
+        function getNextStockChange() {
+            const now = new Date();
+            const hours = now.getUTCHours();
+            const currentPeriod = Math.floor(hours / 4);
+            const nextChangeHour = (currentPeriod + 1) * 4;
+            
+            const nextChange = new Date(now);
+            nextChange.setUTCHours(nextChangeHour, 0, 0, 0);
+            
+            if (nextChange < now) {
+                nextChange.setUTCDate(nextChange.getUTCDate() + 1);
+            }
+            
+            return nextChange;
+        }
+
+        function updateTimer() {
+            const now = new Date();
+            const nextChange = getNextStockChange();
+            const diff = nextChange - now;
+            
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('timer').textContent = 
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            
+            setTimeout(updateTimer, 1000);
+        }
+
+        updateTimer();
+    </script>
+</body>
+<a href="https://discord.gg/Qp2R3h77Dh" class="boton-instalar"> <img src="imagenes/discord.gif" class="icono-pico"> Discord</a>
+</html>
