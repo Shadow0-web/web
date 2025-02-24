@@ -3,85 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frutas en Stock</title>
+    <title>Stock Normal</title>
     <style>
-        .boton-instalar {
-            position: relative; 
-            display: inline-block;
-            background-color: #000000;
-            color: white;
-            border: none;
-            padding: 15px 20px;
-            border-radius: 7px;
-            text-decoration: none; 
-            text-align: center;
-            cursor: pointer;
-            transition: background-color 0.5s;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
         
-        .boton-instalar:hover {
-            background-color: #2e2e2e;
+        body {
+            color: rgb(201, 201, 201);
+            background-color: #111010;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        .fruit-item {
+        
+     
+        .container {
+            width: 100%;
+            padding: 15px;
+        }
+        .header-container {
             display: flex;
             align-items: center;
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        .fruit-item img {
-            width: 50px;
-            height: 50px;
-            margin-right: 10px;
-            border: 1px solid #ccc;
-        }
-        .fruit-info {
-            display: flex;
-            flex-direction: column;
-        }
-        .fruit-name {
-            font-weight: bold;
-        }
-        .fruit-rarity {
-            color: #555;
-            font-size: 0.9em;
-        }
-        .fruit-price {
-            color: #4CAF50;
-            font-size: 0.9em;
-        }
-        .robux-price {
-            color: #00b3ff;
-            font-size: 0.9em;
-        }
-        body{
-            color: black;
-            background-color: #111010;
-        }
-        .icono-pico {
-            width: 23px;
-            height: 23px;
-            margin-right: 1px;
-            vertical-align:sub;
-            transition: transform 0.3s ease;
-        }
-        .oso{
-           background-color: #464646;
-           text-align: center;
-           width: 400px;
-           border-radius: 10px;
-           vertical-align: middle;
-           text-shadow: #836586;
-           box-decoration-break: unset;
-           height: auto;
-           color: rgb(201, 201, 201);
-           right: -60px;
-           position: relative;
-        }
-        #boton-retroceso {
+            justify-content: center;
             position: relative;
-            top: 58px;
-            right: -0px;
+            margin-bottom: 20px;
+            padding-top: 20px;
+        }
+        
+        .oso {
+            background-color: #464646;
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 0 auto;
+            color: rgb(201, 201, 201);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+
+        #boton-retroceso {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
             background-color: #464646;
             color: white;
             border: none;
@@ -91,74 +61,218 @@
             font-size: 16px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
             transition: background-color 0.3s ease;
+            z-index: 10;
         }
-
+        
         #boton-retroceso:hover {
             background-color: #2e2e2e;
         }
+        
+        .timer-container {
+            background-color: #464646;
+            padding: 10px 15px;
+            border-radius: 10px;
+            color: rgb(201, 201, 201);
+            text-align: center;
+            margin: 15px auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+
+        #fruit-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .rarity-section {
+            margin: 15px 0;
+        }
+        
+        .rarity-header {
+            margin: 15px 0 10px 0;
+            padding-bottom: 5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 1.5rem;
+        }
+        
+        .fruits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+        }
+        
+        .fruit-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 8px;
+            transition: transform 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        
+        .fruit-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .fruit-item img {
+            width: 60px;
+            height: 60px;
+            margin-right: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            padding: 5px;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+        
+        .fruit-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            flex: 1;
+        }
+        
+        .fruit-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .fruit-rarity {
+            color: #ddd;
+            font-size: 0.9em;
+        }
+        
+        .fruit-price {
+            color: #4CAF50;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        
         .robux-price {
             color: #FFD700;
             font-size: 0.9em;
             text-shadow: 0 0 2px rgba(255, 215, 0, 0.3);
             font-weight: bold;
         }
-        .timer-container {
-                position: absolute;
-                background-color: #464646;
+        
+
+        .discord-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .boton-instalar {
+            position: relative; 
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #5865F2;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 7px;
+            text-decoration: none; 
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        .boton-instalar:hover {
+            background-color: #4752C4;
+            transform: translateY(-2px);
+        }
+        
+        .icono-pico {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+                @media (max-width: 768px) {
+            body {
                 padding: 10px;
-                border-radius: 10px;
-                margin-left: 20px;
-                color: rgb(201, 201, 201);
-                top: 118px;
-                
             }
-            .timer-input {
-                background-color: #2e2e2e;
-                color: white;
-                border: 1px solid #666;
-                border-radius: 5px;
-                padding: 5px;
-                width: 50px;
-                margin: 0 5px;
-            }
-            .timer-button {
-                background-color: #2e2e2e;
-                color: white;
-                border: none;
-                border-radius: 5px;
-                padding: 5px 10px;
-                cursor: pointer;
-                margin-left: 10px;
-            }
-            .timer-button:hover {
-                background-color: #1e1e1e;
-            }
+            
             .header-container {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin-bottom: 20px;
+                flex-direction: column;
+                gap: 15px;
             }
-</style>
-    </head>
-    <body class="body">
-        <div class="header-container">
-            <div class="timer-container">
-                <span id="timer">04:00:00</span>
-            </div>
-        </div>
+            
+            #boton-retroceso {
+                position: relative;
+                top: 0;
+                left: 0;
+                transform: none;
+                margin-bottom: 15px;
+                align-self: flex-start;
+            }
+            
+            .oso {
+                width: 100%;
+                max-width: 100%;
+                margin-top: 10px;
+            }
+            
+            .fruits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .fruit-item {
+                padding: 10px;
+            }
+            
+            .fruit-item img {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .timer-container {
+                font-size: 1rem;
+                padding: 8px 12px;
+            }
+        }
+        .color1{
+            color: #4CAF50;
+        }
+    </style>
 </head>
 
-<body class="body">
-    <button id="boton-retroceso">←</button> <h1 class="oso">Frutas en Stock</h1>
-    <div id="fruit-list">Cargando...</div>
+<body>
+    <div class="container">
+        <div class="header-container">
+            <button id="boton-retroceso">←</button>
+            <h1 class="oso">Frutas en Stock</h1>
+        </div>
+        
+        <div class="timer-container">
+            <span>Próximo cambio en: </span>
+            <span id="timer">00:00:00</span>
+        </div>
+        
+        <div id="fruit-list">Cargando...</div>
+        
+        <div class="discord-container">
+            <a href="https://discord.gg/Qp2R3h77Dh" class="boton-instalar">
+                <img src="imagenes/discord.gif" class="icono-pico" alt="Discord"> 
+                Discord
+            </a>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         document.getElementById('boton-retroceso').addEventListener('click', function() {
             window.history.back();
         });
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script>
+        
         function fetchFruitData() {
             const options = {
                 method: 'GET',
@@ -168,6 +282,7 @@
                     'x-rapidapi-host': 'blox-fruit-stock-fruit.p.rapidapi.com'
                 }
             };
+            
             axios.request(options)
                 .then(function (response) {
                     const fruits = response.data.fruit_stock;
@@ -175,27 +290,27 @@
                 })
                 .catch(function (error) {
                     console.error(error);
-                    document.getElementById('fruit-list').textContent = 'Error al cargar los datos.';
+                    document.getElementById('fruit-list').innerHTML = '<p style="text-align: center; color: #ff6666;">error al cargar los datos intenta más tarde.</p>';
                 });
         }
 
         function getFruitRarity(fruitName) {
-            if (fruitName === "Flame" || fruitName === "Falcon"  || fruitName === "Ice"  || fruitName === "Sand"  || fruitName === "Dark" || fruitName === "Diamond") {
+            if (fruitName === "Flame" || fruitName === "Falcon" || fruitName === "Ice" || fruitName === "Sand" || fruitName === "Dark" || fruitName === "Diamond") {
                 return "Uncommon"; 
             }
-            if (fruitName === "Light" || fruitName === "Rubber"  || fruitName === "Barrier"  || fruitName === "Ghost"  || fruitName === "Magma") {
+            if (fruitName === "Light" || fruitName === "Rubber" || fruitName === "Barrier" || fruitName === "Ghost" || fruitName === "Magma") {
                 return "Raras"; 
             }
-            if (fruitName === "Quake" || fruitName === "Buddha"  || fruitName === "Love"  || fruitName === "Spider"  || fruitName === "Sound"  || fruitName === "Phoenix"   || fruitName === "Portal"   || fruitName === "Rumble"   || fruitName === "Pain"   || fruitName === "Blizzard") {
-                return "Legendario"; 
+            if (fruitName === "Quake" || fruitName === "Buddha" || fruitName === "Love" || fruitName === "Spider" || fruitName === "Sound" || fruitName === "Phoenix" || fruitName === "Portal" || fruitName === "Rumble" || fruitName === "Pain" || fruitName === "Blizzard") {
+                return "Legendarias"; 
             }
-            if (fruitName === "Gravity" || fruitName === "Mammoth"  || fruitName === "T-rex"  || fruitName === "Dough"  || fruitName === "Shadow"  || fruitName === "Venom"   || fruitName === "Control"   || fruitName === "Spirit"   || fruitName === "Leopard"   || fruitName === "Kitsune"   || fruitName === "Gas"    || fruitName === "Yeti") {
+            if (fruitName === "Gravity" || fruitName === "Mammoth" || fruitName === "T-rex" || fruitName === "Dough" || fruitName === "Shadow" || fruitName === "Venom" || fruitName === "Control" || fruitName === "Spirit" || fruitName === "Leopard" || fruitName === "Kitsune" || fruitName === "Gas" || fruitName === "Yeti") {
                 return "Miticas"; 
             }
             if (fruitName === "Dragon") {
                 return "oso"; 
             }
-            return "Común"; 
+            return "comunes"; 
         }
 
         function getFruitPrice(fruitName) {
@@ -231,7 +346,7 @@
                 "Gravity": "2,500,000",
                 "Mammoth": "2,700,000",
                 "T-rex": "2,700,000",
-                "Dough": "2800,000",
+                "Dough": "2,800,000",
                 "Shadow": "2,900,000",
                 "Venom": "3,000,0000 ",
                 "Control": "3,200,000",
@@ -294,14 +409,26 @@
 
         function getRarityColor(rarity) {
             const rarityColors = {
-                "Común": "#bababa", 
-                "Uncommon": "#aaaaff", 
-                "Raras": "#A78BFA", 
-                "Legendario": "#F472B6", 
-                "Miticas": "#ff6666", 
-                "oso": "#cc99ff" 
+                "comunes": "#3a3a3a", 
+                "Uncommon": "#4a4a9f", 
+                "Raras": "#6c46bd", 
+                "Legendarias": "#a82b71", 
+                "Miticas": "#a13333", 
+                "oso": "#7a2ba8" 
             };
-            return rarityColors[rarity] || "#f0f0f0"; 
+            return rarityColors[rarity] || "#2e2e2e"; 
+        }
+
+        function getRarityWeight(rarity) {
+            const rarityWeights = {
+                "comunes": 6,
+                "Uncommon": 5,
+                "Raras": 4,
+                "Legendarias": 3,
+                "Miticas": 2,
+                "oso": 1
+            };
+            return rarityWeights[rarity] || 0;
         }
 
         function displayFruits(fruits) {
@@ -309,132 +436,90 @@
             fruitList.innerHTML = '';
 
             if (fruits.length === 0) {
-                fruitList.textContent = 'No hay frutas en stock.';
+                fruitList.innerHTML = '<p style="text-align: center;">No hay frutas en stock.</p>';
                 return;
             }
 
-            fruits.forEach(fruit => {
-                const fruitItem = document.createElement('div');
-                fruitItem.className = 'fruit-item';
+            const sortedFruits = fruits.sort((a, b) => {
+                const rarityA = getFruitRarity(a);
+                const rarityB = getFruitRarity(b);
+                return getRarityWeight(rarityA) - getRarityWeight(rarityB);
+            });
+
+            const fruitsByRarity = {};
+            
+            sortedFruits.forEach(fruit => {
                 const rarity = getFruitRarity(fruit);
-                const rarityColor = getRarityColor(rarity);
-                fruitItem.style.backgroundColor = rarityColor;
+                if (!fruitsByRarity[rarity]) {
+                    fruitsByRarity[rarity] = [];
+                }
+                fruitsByRarity[rarity].push(fruit);
+            });
 
-                const fruitImage = document.createElement('img');
-                fruitImage.src = `frutas/${fruit.toLowerCase()}.png`;
-                fruitImage.alt = fruit;
-                fruitItem.appendChild(fruitImage);
 
-                const fruitInfo = document.createElement('div');
-                fruitInfo.className = 'fruit-info';
+            const rarityOrder = ["oso", "Miticas", "Legendarias", "Raras", "Uncommon", "comunes"];
+            
+            rarityOrder.forEach(rarity => {
+                if (fruitsByRarity[rarity] && fruitsByRarity[rarity].length > 0) {
+                    const raritySection = document.createElement('div');
+                    raritySection.className = 'rarity-section';
+                    
+                    const rarityHeader = document.createElement('h2');
+                    rarityHeader.className = 'rarity-header';
+                    rarityHeader.style.color = getRarityColor(rarity);
+                    rarityHeader.textContent = `Frutas ${rarity}`;
+                    raritySection.appendChild(rarityHeader);
+                    
+                    const fruitsGrid = document.createElement('div');
+                    fruitsGrid.className = 'fruits-grid';
+                    
+                    fruitsByRarity[rarity].forEach(fruit => {
+                        const fruitItem = document.createElement('div');
+                        fruitItem.className = 'fruit-item';
+                        fruitItem.style.backgroundColor = getRarityColor(rarity);
 
-                const fruitName = document.createElement('span');
-                fruitName.className = 'fruit-name';
-                fruitName.textContent = fruit;
-                fruitInfo.appendChild(fruitName);
+                        const fruitImage = document.createElement('img');
+                        fruitImage.src = `frutas/${fruit.toLowerCase()}.png`;
+                        fruitImage.alt = fruit;
+                        fruitImage.onerror = function() {
+                            this.src = 'frutas/default.png';
+                            this.onerror = null;
+                        };
+                        fruitItem.appendChild(fruitImage);
 
-                const fruitRarity = document.createElement('span');
-                fruitRarity.className = 'fruit-rarity';
-                fruitRarity.textContent = `Rareza: ${rarity}`;
-                fruitInfo.appendChild(fruitRarity);
+                        const fruitInfo = document.createElement('div');
+                        fruitInfo.className = 'fruit-info';
 
-                const fruitPrice = document.createElement('span');
-                fruitPrice.className = 'fruit-price';
-                fruitPrice.textContent = `Precio: $${getFruitPrice(fruit)}`;
-                fruitInfo.appendChild(fruitPrice);
+                        const fruitName = document.createElement('span');
+                        fruitName.className = 'fruit-name';
+                        fruitName.textContent = fruit;
+                        fruitInfo.appendChild(fruitName);
 
-                const robuxPrice = document.createElement('span');
-                robuxPrice.className = 'robux-price';
-                robuxPrice.textContent = `Robux: R$${getRobuxPrice(fruit)}`;
-                fruitInfo.appendChild(robuxPrice);
-
-                fruitItem.appendChild(fruitInfo);
-                fruitList.appendChild(fruitItem);
+                        const fruitRarity = document.createElement('span');
+                        fruitRarity.className = 'fruit-rarity';
+                        fruitRarity.textContent = `Rareza: ${rarity}`;
+                        fruitInfo.appendChild(fruitRarity);
+                        
+                        const fruitPrice = document.createElement('span');
+                        fruitPrice.className = 'fruit-price';
+                        fruitPrice.textContent = `Precio: $${getFruitPrice(fruit)}`;
+                        fruitInfo.appendChild(fruitPrice);
+                        
+                        const robuxPrice = document.createElement('span');
+                        robuxPrice.className = 'robux-price';
+                        robuxPrice.textContent = `Robux: R$${getRobuxPrice(fruit)}`;
+                        fruitInfo.appendChild(robuxPrice);
+                        
+                        fruitItem.appendChild(fruitInfo);
+                        fruitsGrid.appendChild(fruitItem);
+                    });
+                    
+                    raritySection.appendChild(fruitsGrid);
+                    fruitList.appendChild(raritySection);
+                }
             });
         }
 
-        fetchFruitData();
-    </script>
-    <script>
-
-        function getRarityWeight(rarity) {
-        const rarityWeights = {
-        "Común": 6,
-        "Uncommon": 5,
-        "Raras": 4,
-        "Legendario": 3,
-        "Miticas": 2,
-        "oso": 1
-    };
-    return rarityWeights[rarity] || 0;
-}
-
-function displayFruits(fruits) {
-    const fruitList = document.getElementById('fruit-list');
-    fruitList.innerHTML = '';
-
-    if (fruits.length === 0) {
-        fruitList.textContent = 'No hay frutas en stock.';
-        return;
-    }
-
-    const sortedFruits = fruits.sort((a, b) => {
-        const rarityA = getFruitRarity(a);
-        const rarityB = getFruitRarity(b);
-        return getRarityWeight(rarityA) - getRarityWeight(rarityB);
-    });
-
-    let currentRarity = null;
-    
-    sortedFruits.forEach(fruit => {
-        const rarity = getFruitRarity(fruit);
-        
-        if (currentRarity !== rarity) {
-            const rarityHeader = document.createElement('h2');
-            rarityHeader.style.color = getRarityColor(rarity);
-            rarityHeader.style.marginTop = '20px';
-            rarityHeader.style.marginBottom = '10px';
-            rarityHeader.textContent = `Frutas ${rarity}`;
-            fruitList.appendChild(rarityHeader);
-            currentRarity = rarity;
-        }
-
-        const fruitItem = document.createElement('div');
-        fruitItem.className = 'fruit-item';
-        const rarityColor = getRarityColor(rarity);
-        fruitItem.style.backgroundColor = rarityColor;
-
-        const fruitImage = document.createElement('img');
-        fruitImage.src = `frutas/${fruit.toLowerCase()}.png`;
-        fruitImage.alt = fruit;
-        fruitItem.appendChild(fruitImage);
-
-        const fruitInfo = document.createElement('div');
-        fruitInfo.className = 'fruit-info';
-
-        const fruitName = document.createElement('span');
-        fruitName.className = 'fruit-name';
-        fruitName.textContent = fruit;
-        fruitInfo.appendChild(fruitName);
-
-        const fruitRarity = document.createElement('span');
-        fruitRarity.className = 'fruit-rarity';
-        fruitRarity.textContent = `Rareza: ${rarity}`;
-        fruitInfo.appendChild(fruitRarity);
-        const fruitPrice = document.createElement('span');
-        fruitPrice.className = 'fruit-price';
-        fruitPrice.textContent = `Precio: $${getFruitPrice(fruit)}`;
-        fruitInfo.appendChild(fruitPrice);
-        const robuxPrice = document.createElement('span');
-        robuxPrice.className = 'robux-price';
-        robuxPrice.textContent = `Robux: R$${getRobuxPrice(fruit)}`;
-        fruitInfo.appendChild(robuxPrice);
-        fruitItem.appendChild(fruitInfo);
-        fruitList.appendChild(fruitItem);
-    });
-}
-    </script>
-    <script>
         function getNextStockChange() {
             const now = new Date();
             const hours = now.getUTCHours();
@@ -466,8 +551,972 @@ function displayFruits(fruits) {
             setTimeout(updateTimer, 1000);
         }
 
+        fetchFruitData();
         updateTimer();
     </script>
 </body>
-<a href="https://discord.gg/Qp2R3h77Dh" class="boton-instalar"> <img src="imagenes/discord.gif" class="icono-pico"> Discord</a>
+<script>
+let currentFruitModal = null;
+
+function displayFruits(fruits) {
+    const fruitList = document.getElementById('fruit-list');
+    fruitList.innerHTML = '';
+
+    if (fruits.length === 0) {
+        fruitList.innerHTML = '<p style="text-align: center;">No hay frutas en stock.</p>';
+        return;
+    }
+
+    const sortedFruits = fruits.sort((a, b) => {
+        const rarityA = getFruitRarity(a);
+        const rarityB = getFruitRarity(b);
+        return getRarityWeight(rarityA) - getRarityWeight(rarityB);
+    });
+
+    const fruitsByRarity = {};
+    
+    sortedFruits.forEach(fruit => {
+        const rarity = getFruitRarity(fruit);
+        if (!fruitsByRarity[rarity]) {
+            fruitsByRarity[rarity] = [];
+        }
+        fruitsByRarity[rarity].push(fruit);
+    });
+
+    const rarityOrder = ["oso", "Miticas", "Legendarias", "Raras", "Uncommon", "comunes"];
+    
+    rarityOrder.forEach(rarity => {
+        if (fruitsByRarity[rarity] && fruitsByRarity[rarity].length > 0) {
+            const raritySection = document.createElement('div');
+            raritySection.className = 'rarity-section';
+            
+            const rarityHeader = document.createElement('h2');
+            rarityHeader.className = 'rarity-header';
+            rarityHeader.style.color = getRarityColor(rarity);
+            rarityHeader.textContent = `Frutas ${rarity}`;
+            raritySection.appendChild(rarityHeader);
+            
+            const fruitsGrid = document.createElement('div');
+            fruitsGrid.className = 'fruits-grid';
+            
+            fruitsByRarity[rarity].forEach(fruit => {
+                const fruitItem = document.createElement('div');
+                fruitItem.className = 'fruit-item';
+                fruitItem.style.backgroundColor = getRarityColor(rarity);
+                fruitItem.style.cursor = 'pointer';
+                
+                fruitItem.addEventListener('click', function() {
+                    showFruitCard(fruit);
+                });
+
+                const fruitImage = document.createElement('img');
+                fruitImage.src = `frutas/${fruit.toLowerCase()}.png`;
+                fruitImage.alt = fruit;
+                fruitImage.onerror = function() {
+                    this.src = 'frutas/default.png';
+                    this.onerror = null;
+                };
+                fruitItem.appendChild(fruitImage);
+
+                const fruitInfo = document.createElement('div');
+                fruitInfo.className = 'fruit-info';
+
+                const fruitName = document.createElement('span');
+                fruitName.className = 'fruit-name';
+                fruitName.textContent = fruit;
+                fruitInfo.appendChild(fruitName);
+
+                const fruitRarity = document.createElement('span');
+                fruitRarity.className = 'fruit-rarity';
+                fruitRarity.textContent = `Rareza: ${rarity}`;
+                fruitInfo.appendChild(fruitRarity);
+                
+                const fruitPrice = document.createElement('span');
+                fruitPrice.className = 'fruit-price';
+                fruitPrice.textContent = `Precio: $${getFruitPrice(fruit)}`;
+                fruitInfo.appendChild(fruitPrice);
+                
+                const robuxPrice = document.createElement('span');
+                robuxPrice.className = 'robux-price';
+                robuxPrice.textContent = `Robux: R$${getRobuxPrice(fruit)}`;
+                fruitInfo.appendChild(robuxPrice);
+                
+                fruitItem.appendChild(fruitInfo);
+                fruitsGrid.appendChild(fruitItem);
+            });
+            
+            raritySection.appendChild(fruitsGrid);
+            fruitList.appendChild(raritySection);
+        }
+    });
+
+
+    if (!document.getElementById('fruit-modal-container')) {
+        const modalContainer = document.createElement('div');
+        modalContainer.id = 'fruit-modal-container';
+        modalContainer.className = 'modal-container';
+        modalContainer.style.display = 'none';
+        document.body.appendChild(modalContainer);
+    }
+}
+
+
+const fruitDetails = {
+
+    "Rocket": {
+        description: "Permite al usuario realizar cortes rápidos y precisos con una espada de energía.",
+        abilities: [
+            "Z - Corte Rápido: Un tajo veloz hacia el enemigo.",
+            "X - Tormenta de Espadas: Desata una serie de cortes en todas direcciones.",
+            "C - Hoja Energética: Lanza una onda de energía cortante."
+        ],
+        awakening: "No disponible"
+       },
+    "Blade": {
+        "description": "Permite al usuario realizar cortes rápidos y precisos con una espada de energía.",
+        "abilities": [
+            "Z - Corte Rápido: Un tajo veloz hacia el enemigo.",
+            "X - Tormenta de Espadas: Desata una serie de cortes en todas direcciones.",
+            "C - Hoja Energética: Lanza una onda de energía cortante."
+        ],
+        "awakening": "No disponible"
+    },
+
+    "Spin": {
+        "description": "Transforma al usuario en un torbellino giratorio capaz de atacar a múltiples enemigos.",
+        "abilities": [
+            "Z - Giro Rápido: Ataque giratorio que daña a los enemigos cercanos.",
+            "X - Tornado: Crea un tornado que avanza y arrastra a los enemigos.",
+            "C - Vórtice Ascendente: Eleva al usuario mientras gira, dañando y lanzando a los enemigos al aire."
+        ],
+        "awakening": "No disponible"
+    },
+
+    "Spring": {
+        "price": "180",
+        "description": "Confiere habilidades elásticas, permitiendo al usuario estirarse y saltar grandes distancias.",
+        "abilities": [
+            "Z - Salto Elástico: Un salto hacia adelante que golpea a los enemigos en el camino.",
+            "X - Rebote: Permite rebotar en superficies y atacar desde diferentes ángulos.",
+            "C - Impacto de Resorte: Un golpe potente que lanza a los enemigos lejos."
+        ],
+        "awakening": "No disponible"
+    },
+
+    "Bomb": {
+        "price": "220",
+        "description": "Permite al usuario generar y detonar explosivos a voluntad.",
+        "abilities": [
+            "Z - Bomba Manual: Lanza una pequeña bomba que explota al contacto.",
+            "X - Mina Terrestre: Coloca una mina que detona cuando un enemigo se acerca.",
+            "C - Explosión Masiva: Genera una gran explosión alrededor del usuario, dañando a todos los enemigos cercanos."
+        ],
+        "awakening": "No disponible"
+    },
+    "Smoke": {
+        "description": "Otorga la capacidad de generar y controlar humo para ataques y evasiones.",
+        "abilities": [
+            "Z - Puño de Humo: Lanza una ráfaga de humo que daña a los enemigos.",
+            "X - Nube Asfixiante: Crea una nube de humo que reduce la visibilidad y daña con el tiempo.",
+            "C - Forma de Humo: Transforma al usuario en humo, permitiendo moverse rápidamente y evitar ataques."
+        ],
+        "awakening": "No disponible"
+    },
+    "Spike": {
+        "description": "Permite al usuario generar espinas afiladas para atacar y defenderse.",
+        "abilities": [
+            "Z - Lluvia de Espinas: Dispara múltiples espinas en todas direcciones.",
+            "X - Muro de Púas: Levanta una barrera de espinas que bloquea ataques y daña a quien la toque.",
+            "C - Explosión Espinosa: Genera una explosión de espinas alrededor del usuario, hiriendo a los enemigos cercanos."
+        ],
+        "awakening": "No disponible"
+    },
+    "Flame": {
+        "description": "Otorga el poder de controlar y generar fuego para ataques devastadores.",
+        "abilities": [
+            "Z - Llamarada: Lanza una bola de fuego hacia el objetivo.",
+            "X - Pilar Ígneo: Crea una columna de fuego que quema a los enemigos en su área.",
+            "C - Tormenta de Fuego: Desata una serie de explosiones de fuego en un área amplia.",
+            "V - Destrucción Ígnea: Genera una enorme explosión de fuego que causa daño masivo.",
+            "F - Vuelo en Llamas: Permite al usuario volar envuelto en llamas."
+        ],
+        "awakening":  "Disponible"
+    },
+    "Falcon": {
+        "description": "Transforma al usuario en un halcón, otorgando habilidades de vuelo y ataques aéreos.",
+        "abilities": [
+            "Z - Picotazo: Un ataque rápido con el pico hacia el enemigo.",
+            "X - Ráfaga de Plumas: Lanza plumas afiladas que dañan a los enemigos a distancia.",
+            "C - Embestida Aérea: Se lanza en picada desde el aire, causando daño al impactar.",
+            "V - Vuelo del Halcón: Permite al usuario volar libremente por el mapa."
+        ],
+        "awakening": "No disponible"
+    },
+    "Ice": {
+        "description": "Permite al usuario controlar y generar hielo, congelando enemigos y superficies.",
+        "abilities": [
+            "Z - Lanza de Hielo: Dispara una lanza de hielo que perfora a los enemigos.",
+            "X - Congelación: Congela el suelo, inmovilizando a los enemigos cercanos.",
+            "C - Tormenta Helada: Crea una tormenta de nieve que daña y ralentiza a los enemigos.",
+            "V - Dragón de Hielo: Invoca un dragón de hielo que causa daño en su camino.",
+            "F - Patinaje: Permite al usuario deslizarse rápidamente sobre el hielo."
+        ],
+        "awakening": "Disponible"
+    },
+    "Sand": {
+        "description": "Permite al usuario manipular la arena para crear tormentas y ataques devastadores.",
+        "abilities": [
+            "Z - Desert Sword: Crea espadas de arena que emergen del suelo.",
+            "X - Sand Coffin: Atrapa al enemigo en un ataúd de arena, causando daño continuo.",
+            "C - Sand Tornado: Genera un tornado de arena que lanza a los enemigos por los aires.",
+            "V - Heavy Sand: Lanza una masa de arena pesada que aplasta a los enemigos.",
+            "F - Sand Flight: Permite al usuario volar sobre una nube de arena."
+        ],
+        "awakening": "Disponible"
+    },
+    "Dark": {
+
+        "description": "Otorga el poder de controlar la oscuridad, permitiendo absorber y neutralizar ataques enemigos.",
+        "abilities": [
+            "Z - Dark Rocks: Lanza rocas oscuras hacia el enemigo.",
+            "X - Black Spiral: Crea un vórtice que atrae y daña a los enemigos.",
+            "C - Black Hole: Genera un agujero negro que absorbe todo a su alrededor.",
+            "V - Dark Bomb: Lanza una bomba de oscuridad que causa una gran explosión.",
+            "F - Ghastly Step: Teletransporta al usuario a corta distancia."
+        ],
+        "awakening": "Disponible"
+    },
+    "Diamond": {
+
+        "description": "Transforma el cuerpo del usuario en diamante, aumentando su defensa y resistencia.",
+        "abilities": [
+            "Z - Diamond Body: Endurece el cuerpo, reduciendo el daño recibido.",
+            "X - Diamond Hail: Lanza fragmentos de diamante que dañan a los enemigos.",
+            "C - Diamond Burst: Genera una explosión de diamantes alrededor del usuario.",
+            "V - Diamond Rush: Se lanza hacia adelante, golpeando a los enemigos con fuerza."
+        ],
+        "awakening": "No disponible"
+    },
+    "Light": {
+
+        "description": "Permite al usuario controlar la luz, otorgando velocidad extrema y ataques de largo alcance.",
+        "abilities": [
+            "Z - Light Beam: Dispara un rayo de luz concentrado.",
+            "X - Light Barrage: Lanza múltiples proyectiles de luz.",
+            "C - Light Kick: Realiza una patada de luz que atraviesa a los enemigos.",
+            "V - Sky Beam Barrage: Invoca una lluvia de rayos de luz desde el cielo.",
+            "F - Light Flight: Transforma al usuario en luz, permitiendo un vuelo a alta velocidad."
+        ],
+        "awakening": "Disponible"
+    },
+    "Rubber": {
+        "description": "Convierte el cuerpo del usuario en goma, permitiendo ataques elásticos y resistencia a impactos.",
+        "abilities": [
+            "Z - Pistol: Lanza un puñetazo estirado hacia el enemigo.",
+            "X - Cannon: Dispara el cuerpo como un proyectil hacia adelante.",
+            "C - Rush: Realiza una serie de golpes rápidos y continuos.",
+            "V - Slingshot: Se estira hacia atrás y se lanza a gran velocidad.",
+            "F - Balloon: Infla el cuerpo para rebotar ataques y enemigos."
+        ],
+        "awakening": "No disponible"
+    },
+    "Barrier": {
+
+        "description": "Permite al usuario crear barreras invisibles para defensa y ataque.",
+        "abilities": [
+            "Z - Barrier Wall: Levanta una pared que bloquea ataques enemigos.",
+            "X - Barrier Prison: Encierra a los enemigos en una jaula de barrera.",
+            "C - Stairs: Crea una escalera de barrera para alcanzar lugares elevados.",
+            "V - Barrier Towers: Invoca torres de barrera que golpean a los enemigos.",
+            "F - Barrier Sphere: Forma una esfera protectora alrededor del usuario."
+        ],
+        "awakening": "No disponible"
+    },
+    "Ghost": {
+        "description": "Otorga habilidades fantasmales, permitiendo al usuario volverse intangible y lanzar ataques espirituales.",
+        "abilities": [
+            "Z - Possession: Se vuelve intangible y atraviesa objetos, dañando a los enemigos al contacto.",
+            "X - Soul Beam: Dispara un rayo de energía espiritual.",
+            "C - Haunting: Invoca espíritus que persiguen y dañan a los enemigos.",
+            "V - Phantom Rush: Se lanza hacia adelante, atravesando y dañando a los enemigos.",
+            "F - Ethereal Form: Transforma al usuario en un fantasma, aumentando la velocidad y evitando daños físicos."
+        ],
+        "awakening": "No disponible"
+    },
+    "Magma": {
+
+        "description": "Permite al usuario controlar y generar magma, causando daños masivos y quemaduras.",
+        "abilities": [
+            "Z - Magma Clap: Genera una onda de choque de magma al aplaudir.",
+            "X - Magma Eruption: Provoca erupciones de magma desde el suelo.",
+            "C - Magma Fist: Lanza un puño de magma hacia el enemigo.",
+            "V - Magma Meteors: Invoca meteoritos de magma que caen del cielo.",
+            "F - Magma Floor: Crea una superficie de magma que daña a quienes la pisan."
+        ],
+        "awakening": "Disponible"
+    },
+    "Quake": {
+        "price": "1,500",
+        "description": "Permite al usuario generar poderosas ondas sísmicas que causan temblores y tsunamis.",
+        "abilities": [
+            "Z - Quake Punch: Golpea el suelo, creando una onda de choque que daña a los enemigos cercanos.",
+            "X - Quake Wave: Lanza una onda sísmica hacia adelante, dañando a los enemigos en su camino.",
+            "C - Quake Erupt: Provoca una erupción sísmica que lanza a los enemigos por los aires.",
+            "V - Dual Tsunami: Genera dos tsunamis gigantes que avanzan desde ambos lados, causando daño masivo."
+        ],
+        "awakening": "Disponible"
+    },
+    "Buddha": {
+        "price": "1,650",
+        "description": "Transforma al usuario en una gigantesca figura dorada, aumentando su defensa y alcance de ataque.",
+        "abilities": [
+            "Z - Transform: Convierte al usuario en un Buda dorado gigante, incrementando su resistencia y alcance.",
+            "X - Impact: Golpea el suelo, creando una explosión que daña a los enemigos cercanos.",
+            "C - Buddha Leap: Realiza un gran salto y aterriza con fuerza, causando daño en el área de impacto.",
+            "V - Buddha Explosion: Libera una poderosa explosión de energía que afecta a todos los enemigos cercanos."
+        ],
+        "awakening": "Disponible"
+    },
+    "Love": {
+
+        "description": "Otorga al usuario la capacidad de disparar proyectiles que encantan y atraen a los enemigos.",
+        "abilities": [
+            "Z - Heart Shot: Dispara un corazón que daña y atrae a los enemigos hacia el usuario.",
+            "X - Love Charm: Emite una onda que encanta a los enemigos cercanos, haciéndolos inofensivos temporalmente.",
+            "C - Irresistible Attraction: Crea un campo que atrae a los enemigos y los mantiene inmovilizados.",
+            "V - Scented Kisses: Lanza una ráfaga de besos perfumados que dañan a los enemigos en un área amplia."
+        ],
+        "awakening": "No disponible"
+    },
+    "Spider": {
+        "description": "Permite al usuario generar y manipular hilos para atacar y controlar a los enemigos.",
+        "abilities": [
+            "Z  {0} - Spider Wraith: Lanza una garra de hilo que daña y empuja a los enemigos.",
+            "X  {50} - Spider Path: Crea un camino de hilos que permite al usuario moverse rápidamente.",
+            "C - Multi-String Attack: Desata múltiples hilos que golpean a los enemigos en un área.",
+            "V - Overheated Sniper: Dispara un hilo concentrado a larga distancia, causando daño significativo.",
+            "F - Ultimate Thread: Genera una gran cantidad de hilos que envuelven y dañan a los enemigos cercanos."
+        ],
+        "awakening": "Disponible"
+    },
+    "Sound": {
+
+        "description": "Otorga al usuario la capacidad de manipular ondas sonoras para atacar y desorientar a los enemigos.",
+        "abilities": [
+            "Z - Sonic Boom: Emite una onda sonora que daña y empuja a los enemigos.",
+            "X - Echo Blast: Lanza una explosión de sonido que aturde a los enemigos en su área de efecto.",
+            "C - Sound Barrier: Crea una barrera de sonido que bloquea ataques y daña a quienes la tocan.",
+            "V - Symphony of Destruction: Desata una serie de ondas sonoras que causan daño continuo a los enemigos cercanos.",
+            "F - Sonic Flight: Permite al usuario desplazarse a alta velocidad utilizando ondas sonoras."
+        ],
+        "awakening": "No disponible"
+    },
+    "Phoenix": {
+        "price": "2,000",
+        "description": "Permite al usuario transformarse en un fénix, otorgando habilidades de regeneración y ataques de fuego.",
+        "abilities": [
+            "Z - Cannon: Lanza una explosión de fuego hacia los enemigos.",
+            "X - Hybrid Flight: Transforma parcialmente al usuario, permitiendo volar y atacar simultáneamente.",
+            "C - Regeneration Flames: Emite llamas que curan al usuario y a los aliados cercanos.",
+            "V - Fast Kick: Realiza una patada rápida envuelta en llamas, causando daño y empujando al enemigo.",
+            "F - Full Transformation: Transforma completamente al usuario en un fénix, mejorando todas las habilidades."
+        ],
+        "awakening": "Disponible"
+    },
+    "Portal": {
+
+        "description": "Otorga al usuario la capacidad de crear portales para teletransportarse y mover a otros a diferentes ubicaciones.",
+        "abilities": [
+            "Z - Portal Dash: Realiza un dash que teletransporta al usuario a corta distancia.",
+            "X - Parallel Escape: Crea un portal que permite al usuario evadir ataques y reaparecer en otro lugar.",
+            "C - World Warp: Abre un portal que transporta al usuario y a los aliados a diferentes islas o áreas.",
+            "V - Dimensional Rift: Genera una grieta dimensional que absorbe y daña a los enemigos cercanos.",
+            "F - Gateway: Establece un portal fijo que los jugadores pueden usar para viajar entre dos puntos."
+       ],
+       "awakening": "Disponible"
+    },
+    "Rumble": {
+
+        "description": "Otorga al usuario el poder de controlar la electricidad, permitiendo ataques de rayos y teletransportación.",
+        "abilities": [
+            "Z - Lightning Beast: Lanza una bestia eléctrica que persigue a los enemigos.",
+            "X - Thunderstorm: Crea una tormenta eléctrica que daña a los enemigos en un área amplia.",
+            "C - Sky Thunder: Invoca un rayo desde el cielo que golpea a los enemigos seleccionados.",
+            "V - Thunderball Destruction: Genera una gran esfera de electricidad que explota al contacto.",
+            "F - Electric Flash: Permite al usuario teletransportarse a corta distancia utilizando electricidad."
+        ],
+        "awakening": "Disponible"
+    },
+    "Pain": {
+
+        "description": "Permite al usuario infligir dolor a los enemigos a distancia, causando daño significativo.",
+        "abilities": [
+            "Z - Paw Cannon: Lanza una poderosa onda de choque en forma de pata.",
+            "X - Torture: Inflige dolor continuo a los enemigos en un área determinada.",
+            "C - Agony Stomp: Salta y golpea el suelo, causando una onda expansiva de dolor.",
+            "V - Suffering Blast: Libera una explosión masiva que inflige gran daño a todos los enemigos cercanos.",
+            "F - Painful Teleport: Teletransporta al usuario a una ubicación cercana, dejando una estela de dolor."
+        ],
+        "awakening": "No disponible"
+    },
+    "Blizzard": {
+
+        "description": "Otorga al usuario el control sobre el hielo y el viento, permitiendo crear tormentas de nieve y ataques gélidos.",
+        "abilities": [
+            "Z - Snowflake Shuriken: Lanza shurikens de nieve que dañan y ralentizan a los enemigos.",
+            "X - Whiteout: Crea una ráfaga de viento helado que reduce la visibilidad y daña a los enemigos.",
+            "C - Howling Wind: Invoca un vendaval que empuja y daña a los enemigos en su camino.",
+            "V - Blizzard Domain: Genera una tormenta de nieve que causa daño continuo en un área amplia.",
+            "F - Frosted Flight: Permite al usuario volar envuelto en una corriente de aire frío."
+        ],
+        "awakening": "No disponible"
+    },
+    "Gravity": {
+
+        "description": "Permite al usuario manipular la gravedad, controlando el peso de los objetos y enemigos.",
+        "abilities": [
+            "Z - Gravity Push: Empuja a los enemigos hacia atrás con una fuerza gravitacional.",
+            "X - Gravity Field: Crea un campo gravitacional que inmoviliza a los enemigos dentro de su área.",
+            "C - Meteor Strike: Invoca un meteorito que cae del cielo y causa daño en el área de impacto.",
+            "V - Gravitational Dominance: Aumenta la gravedad alrededor del usuario, dañando y ralentizando a los enemigos.",
+            "F - Gravity Flight: Permite al usuario levitar y moverse libremente por el aire."
+        ],
+        "awakening": "No disponible"
+    },
+    "Mammoth": {
+
+        "description": "Transforma al usuario en un mamut gigante, aumentando su fuerza y resistencia.",
+        "abilities": [
+            "Z - Tusk Smash: Golpea el suelo con los colmillos, creando una onda de choque.",
+            "X - Trample: Embiste a los enemigos, causando daño y empujándolos hacia atrás.",
+            "C - Mammoth Roar: Emite un poderoso rugido que aturde a los enemigos cercanos.",
+            "V - Stampede: Corre hacia adelante, aplastando a todos los enemigos en el camino.",
+            "F - Mammoth Charge: Permite al usuario cargar a gran velocidad, derribando a los enemigos."
+        ],
+        "awakening": "No disponible"
+    },
+    "T-rex": {
+
+        "description": "Transforma al usuario en un Tiranosaurio Rex, otorgando habilidades de combate cuerpo a cuerpo mejoradas.",
+        "abilities": [
+            "Z - Bite: Muerde al enemigo, causando daño significativo.",
+            "X - Roar: Emite un rugido que intimida y reduce la defensa de los enemigos cercanos.",
+            "C - Tail Whip: Golpea a los enemigos con la cola, derribándolos.",
+            "V - Rampage: Entra en un estado de furia, aumentando el daño y la velocidad de ataque.",
+            "F - Predator's Leap: Realiza un gran salto hacia adelante, cayendo con fuerza sobre los enemigos."
+        ],
+        "awakening": "No disponible"
+    },
+    "Dough": {
+        "price": "2,400",
+        "description": "Permite al usuario manipular masa pegajosa para atrapar y atacar a los enemigos.",
+        "abilities": [
+            "Z - Fried Dough: Lanza una bola de masa que explota al contacto.",
+            "X - Sticky Trident: Crea un tridente de masa que atrapa a los enemigos.",
+            "C - Carved Dough: Forma una figura de masa que ataca a los enemigos cercanos.",
+            "V - Dough Barrage: Desata una serie de golpes rápidos hechos de masa.",
+            "F - Roller Donut: Transforma al usuario en una dona rodante, permitiendo moverse rápidamente."
+        ],
+        "awakening": "Disponible"
+    },
+    "Shadow": {
+
+        "description": "Otorga al usuario el control sobre las sombras, permitiendo ataques furtivos y absorción de energía.",
+        "abilities": [
+            "Z - Shade Nest: Invoca sombras que dañan a los enemigos en un área.",
+            "X - Nightmare Leech: Lanza una sombra que drena la energía del enemigo.",
+            "C - Black Hole: Crea un agujero negro que atrae y daña a los enemigos.",
+        ],
+        "awakening": "No disponible"
+    },
+    "Venom": {
+  
+        "description": "Permite al usuario generar y controlar veneno, causando daño continuo a los enemigos.",
+        "abilities": [
+            "Z - Serpiente Venenosa: Lanza una serpiente de veneno que envenena a los enemigos.",
+            "X - Explosión Tóxica: Causa una explosión de veneno que daña y envenena a los enemigos cercanos.",
+            "C - Niebla Venenosa: Crea una nube de veneno que inflige daño continuo.",
+            "V - Transformación Venenosa: Transforma al usuario en una bestia venenosa, aumentando el daño de las habilidades.",
+            "F - Vuelo Venenoso: Permite al usuario volar dejando una estela de veneno."
+        ],
+        "awakening": "No disponible"
+    },
+    "Control": {
+
+        "description": "Otorga al usuario la capacidad de crear una 'Room' donde puede manipular objetos y enemigos a su voluntad.",
+        "abilities": [
+            "Z - Amputación: Corta a los enemigos dentro de la 'Room' sin causar daño inmediato.",
+            "X - Eco de Tacto: Lanza una onda que empuja a los enemigos dentro de la 'Room'.",
+            "C - Shambles: Intercambia posiciones con un objeto o enemigo dentro de la 'Room'.",
+            "V - Gamma Knife: Ataca a los enemigos dentro de la 'Room' causando daño interno.",
+            "F - Teletransporte: Permite al usuario moverse instantáneamente a cualquier lugar dentro de la 'Room'."
+        ],
+        "awakening": "No disponible"
+    },
+    "Gas": {
+   
+        "description": "Permite al usuario generar y controlar gas venenoso, afectando a los enemigos en un área amplia.",
+        "abilities": [
+            "Z - Explosión de Gas: Lanza una ráfaga de gas que daña a los enemigos.",
+            "X - Nube Tóxica: Crea una nube de gas venenoso que inflige daño continuo.",
+            "C - Asfixia: Reduce la visibilidad y causa daño a los enemigos en el área afectada.",
+            "V - Explosión Química: Provoca una gran explosión de gas que causa daño masivo.",
+            "F - Vuelo Gaseoso: Transforma al usuario en gas, permitiendo volar y evitar ataques físicos."
+        ],
+        "awakening": "No disponible"
+    },
+    "Spirit": {
+
+        "description": "Otorga al usuario la capacidad de invocar y controlar espíritus para atacar y apoyar en combate.",
+        "abilities": [
+            "Z - Llamada Espiritual: Invoca un espíritu que ataca a los enemigos.",
+            "X - Protección Fantasmal: Crea un escudo espiritual que reduce el daño recibido.",
+            "C - Explosión de Almas: Libera una explosión de energía espiritual que daña a los enemigos cercanos.",
+            "V - Ejército Espectral: Invoca múltiples espíritus que atacan en conjunto.",
+            "F - Desplazamiento Etéreo: Permite al usuario moverse rápidamente en forma espiritual."
+        ],
+        "awakening": "No disponible"
+    },
+    "Leopard": {
+      
+        "description": "Transforma al usuario en un leopardo, aumentando su velocidad y otorgando poderosos ataques físicos.",
+        "abilities": [
+            "Z - Zarpazo Salvaje: Ataca con una garra rápida que daña a los enemigos.",
+            "X - Embestida Felina: Se lanza hacia adelante, golpeando a los enemigos en su camino.",
+            "C - Rugido del Leopardo: Emite un rugido que aturde y daña a los enemigos cercanos.",
+            "V - Frenesí Animal: Realiza una serie de ataques rápidos causando daño masivo.",
+            "F - Velocidad Felina: Aumenta la velocidad de movimiento del usuario durante un tiempo limitado."
+        ],
+        "awakening": "No disponible"
+    },
+    "Yeti": {
+  
+        "description": "Permite al usuario transformarse en un Yeti, otorgando fuerza y resistencia aumentadas.",
+        "abilities": [
+            "Z - Puño Congelado: Lanza un golpe que congela y daña a los enemigos.",
+            "X - Aliento Gélido: Exhala un viento helado que ralentiza y daña a los enemigos.",
+            "C - Pisotón Ártico: Golpea el suelo, creando una onda de choque helada.",
+            "V - Furia del Yeti: Aumenta temporalmente el daño y la resistencia del usuario.",
+            "F - Salto Glacial: Permite al usuario saltar grandes distancias, causando daño al aterrizar."
+        ],
+        "awakening": "No disponible"
+    },  
+    "Kitsune": {
+ 
+        "description": "Otorga al usuario la capacidad de transformarse en un zorro místico, utilizando habilidades ilusorias y de fuego.",
+        "abilities": [
+            "Z - Llamas Ilusorias: Lanza fuegos fatuos que persiguen y dañan a los enemigos.",
+            "X - Destello Fantasmal: Se desplaza rápidamente, dejando una imagen residual que explota.",
+            "C - Fuego Zorruno: Crea un círculo de fuego que daña a los enemigos dentro de su área.",
+            "V - Danza del Zorro: Realiza una serie de movimientos ágiles que esquivan ataques y contraatacan.",
+            "F - Forma Etérea: Transforma al usuario en un zorro espectral, aumentando la velocidad y permitiendo el vuelo."
+        ],
+        "awakening": "No disponible"
+    },
+    "Dragon": {
+
+        "description": "Permite al usuario transformarse en un dragón poderoso, otorgando habilidades de fuego y vuelo.",
+        "abilities": [
+            "Z - Llama del Dragón: Lanza una poderosa llamarada que incinera a los enemigos.",
+            "X - Rugido Dracónico: Emite un rugido que crea una onda de choque, dañando y empujando a los enemigos.",
+            "C - Ascenso del Dragón: Se eleva rápidamente, dañando a los enemigos en el camino.",
+            "V - Ira Dracónica: Desata una serie de ataques devastadores en un área amplia.",
+            "F - Vuelo del Dragón: Transforma al usuario en un dragón completo, permitiendo un vuelo rápido y ataques aéreos."
+        ],
+        "awakening": "No disponible"
+    }
+
+};
+
+
+function showFruitCard(fruitName) {
+    const modalContainer = document.getElementById('fruit-modal-container');
+    
+
+    if (currentFruitModal) {
+        modalContainer.removeChild(currentFruitModal);
+        currentFruitModal = null;
+    }
+    
+    const modal = document.createElement('div');
+    modal.className = 'fruit-modal';
+    
+    const rarity = getFruitRarity(fruitName);
+    const rarityColor = getRarityColor(rarity);
+    
+    const details = fruitDetails[fruitName] || {
+        description: "No hay información disponible para esta fruta.",
+        abilities: ["Habilidad desconocida"],
+        awakening: "Información no disponible"
+    };
+    
+    modal.innerHTML = `
+        <div class="modal-header" style="background-color: ${rarityColor};">
+            <h2>${fruitName}</h2>
+            <button class="close-button">&times;</button>
+        </div>
+        <div class="modal-content">
+            <div class="modal-image-container">
+                <img src="frutas/${fruitName.toLowerCase()}.png" alt="${fruitName}" 
+                     onerror="this.src='frutas/default.png';">
+            </div>
+            <div class="modal-info">
+                <p><strong>Rareza:</strong> <span style="color: ${rarityColor}; font-weight: bold;">${rarity}</span></p>
+                <p><strong>Precio:</strong> <span style="color: ${rarityColor}; font-weight: bold;">$${getFruitPrice(fruitName)}</span></p>
+                <p><strong>Robux:</strong> <span style="color: ${rarityColor}; font-weight: bold;">R$${getRobuxPrice(fruitName)}</span></p>
+                <p><strong>Descripción:</strong> ${details.description}</p>
+                <div class="abilities">
+                    <h3>Habilidades:</h3>
+                    <ul>
+                        ${details.abilities.map(ability => `<li>${ability}</li>`).join('')}
+                    </ul>
+                </div>
+                <p><strong>Awakening:</strong> ${details.awakening}</p>
+            </div>
+        </div>
+    `;
+    
+    modalContainer.appendChild(modal);
+    currentFruitModal = modal;
+    modalContainer.style.display = 'flex';
+    
+    modal.querySelector('.close-button').addEventListener('click', function() {
+        modalContainer.style.display = 'none';
+        if (currentFruitModal) {
+            modalContainer.removeChild(currentFruitModal);
+            currentFruitModal = null;
+        }
+    });
+    
+    modalContainer.addEventListener('click', function(event) {
+        if (event.target === modalContainer) {
+            modalContainer.style.display = 'none';
+            if (currentFruitModal) {
+                modalContainer.removeChild(currentFruitModal);
+                currentFruitModal = null;
+            }
+        }
+    });
+}
+
+const styleElement = document.createElement('style');
+styleElement.textContent = `
+    .modal-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+    
+    .fruit-modal {
+        background-color: #fff;
+        border-radius: 8px;
+        width: 80%;
+        max-width: 600px;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        animation: modalFadeIn 0.3s;
+    }
+    
+    @keyframes modalFadeIn {
+        from { opacity: 0; transform: scale(0.8); }
+        to { opacity: 1; transform: scale(1); }
+    }
+    
+    .modal-header {
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+    
+    .modal-header h2 {
+        color: white;
+        margin: 0;
+        font-size: 1.5rem;
+    }
+    
+    .close-button {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        transition: background-color 0.2s;
+    }
+    
+    .close-button:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .modal-content {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        color: black;
+    }
+    
+    .modal-image-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+    
+    .modal-image-container img {
+        max-width: 150px;
+        max-height: 150px;
+        object-fit: contain;
+    }
+    
+    .modal-info p {
+        margin: 8px 0;
+    }
+    
+    .abilities {
+        margin: 15px 0;
+    }
+    
+    .abilities h3 {
+        margin: 0 0 10px 0;
+        font-size: 1.1rem;
+    }
+    
+    .abilities ul {
+        margin: 0;
+        padding-left: 20px;
+    }
+    
+    .fruit-item {
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .fruit-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    @media (min-width: 768px) {
+        .modal-content {
+            flex-direction: row;
+        }
+        
+        .modal-image-container {
+            margin-right: 20px;
+            margin-bottom: 0;
+        }
+    }
+`;
+document.head.appendChild(styleElement);
+</script>
+<script>
+
+    let authAttempts = 0;
+    let isAuthenticated = false;
+    const MAX_ATTEMPTS = 3;
+    const HASHED_PASS = "c677c9f7678271bbe724c2cb1ba0899c7a8b8970591971c8a3a8572ec37c659c";
+    
+
+    async function verifyPassword(input) {
+        try {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(input);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('') === HASHED_PASS;
+        } catch (error) {
+            console.error("Error en verificación:", error);
+            return false;
+        }
+    }
+    
+
+    async function showAdminMenu() {
+        try {
+            if (authAttempts >= MAX_ATTEMPTS) {
+                alert("Demasiados intentos fallidos. Recargue la página para intentar nuevamente.");
+                return;
+            }
+    
+            if (!isAuthenticated) {
+                const password = prompt("Ingrese la contraseña de administrador:");
+                if (!password) return;  
+                
+                const isValid = await verifyPassword(password);
+                if (!isValid) {
+                    authAttempts++;
+                    const remaining = MAX_ATTEMPTS - authAttempts;
+                    alert(`Contraseña incorrecta. Intentos restantes: ${remaining > 0 ? remaining : 0}`);
+                    if (authAttempts >= MAX_ATTEMPTS) {
+                        document.getElementById('admin-button').style.display = 'none';
+                    }
+                    return;
+                }
+                isAuthenticated = true;
+            }
+    
+        
+            const newData = prompt("Pegue los nuevos datos de stock en formato JSON:\n(Ejemplo: {\"fruit_stock\":[\"Leopard\",\"Dough\"]})");
+            if (!newData) return;  // Si hace clic en Cancelar
+    
+            const parsedData = JSON.parse(newData);
+            if (parsedData?.fruit_stock) {
+                localStorage.setItem('manualStockData', newData);
+                alert("Datos actualizados correctamente!");
+                fetchFruitData();
+            }
+        } catch (e) {
+            alert(e instanceof SyntaxError ? "Formato JSON inválido" : "Error inesperado");
+        }
+    }
+    
+   
+    document.addEventListener('DOMContentLoaded', () => {
+        const adminButton = document.createElement('button');
+        adminButton.id = 'admin-button';
+        adminButton.innerHTML = '⚙️';
+        adminButton.style.cssText = `
+            position: fixed; 
+            bottom: 20px; 
+            right: 20px; 
+            padding: 10px; 
+            background: #2e2e2e; 
+            color: white; 
+            border: none; 
+            border-radius: 50%; 
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        `;
+        adminButton.addEventListener('click', showAdminMenu);
+        document.body.appendChild(adminButton);
+    });
+    </script>
+
+
+<script>
+
+    const STOCK_CHANGE_HOURS = [0, 4, 8, 12, 16, 20];
+    const CACHE_KEY = 'normal_stock';
+    let timerInterval;
+    
+
+    function getNextStockChange() {
+        const now = new Date();
+        const currentHourUTC = now.getUTCHours();
+        
+  
+        for (let hour of STOCK_CHANGE_HOURS) {
+            if (hour > currentHourUTC) {
+                const nextChange = new Date(now);
+                nextChange.setUTCHours(hour, 0, 0, 0);
+                return nextChange;
+            }
+        }
+        
+  
+        const nextChange = new Date(now);
+        nextChange.setUTCDate(nextChange.getUTCDate() + 1);
+        nextChange.setUTCHours(STOCK_CHANGE_HOURS[0], 0, 0, 0);
+        return nextChange;
+    }
+    
+
+    function cacheStock(data) {
+        const nextChange = getNextStockChange();
+        
+        const cacheData = {
+            data: data,
+            expiration: nextChange.getTime()
+        };
+        
+        localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
+    }
+    
+    function getCachedStock() {
+        const cached = localStorage.getItem(CACHE_KEY);
+        if (!cached) return null;
+        
+        const parsed = JSON.parse(cached);
+        if (Date.now() > parsed.expiration) return null;
+        
+        return parsed;
+    }
+    
+
+    function updateTimer() {
+        clearInterval(timerInterval);
+        
+        function calculateTime() {
+            const cachedData = getCachedStock();
+            const targetTime = cachedData ? cachedData.expiration : getNextStockChange().getTime();
+            const now = Date.now();
+            let diff = targetTime - now;
+            
+            if (diff < 0) {
+                fetchFruitData();
+                return;
+            }
+            
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('timer').textContent = 
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+        
+        calculateTime();
+        timerInterval = setInterval(calculateTime, 1000);
+    }
+    
+ 
+    function fetchFruitData() {
+        const options = {
+            method: 'GET',
+            url: 'https://blox-fruit-stock-fruit.p.rapidapi.com/check_stock',
+            headers: {
+                'x-rapidapi-key': 'f0cdebdc84mshc40446d8bdad367p12e1efjsn0d1ecdbcc50e',
+                'x-rapidapi-host': 'blox-fruit-stock-fruit.p.rapidapi.com'
+            }
+        };
+    
+        axios.request(options)
+            .then(function (response) {
+                const fruits = response.data.fruit_stock;
+                cacheStock(fruits);
+                displayFruits(fruits);
+                updateTimer();
+            })
+            .catch(function (error) {
+                console.error(error);
+                document.getElementById('fruit-list').innerHTML = '<p style="text-align: center; color: #ff6666;">Error al cargar los datos. Intenta más tarde.</p>';
+            });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        updateTimer();
+        fetchFruitData();
+    });
+    
+
+    window.addEventListener('beforeunload', () => {
+        clearInterval(timerInterval);
+    });
+    </script>
+    
 </html>
